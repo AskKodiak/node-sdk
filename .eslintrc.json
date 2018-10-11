@@ -1,0 +1,53 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "array-bracket-spacing": "error",
+    "brace-style": "error",
+    "comma-dangle": "error",
+    "comma-spacing": "error",
+    "comma-style": "error",
+    "curly": "error",
+    "dot-notation": "error",
+    "eqeqeq": "error",
+    "indent": ["error", 2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}],
+    "key-spacing": "error",
+    "keyword-spacing": "error",
+    "new-cap": "error",
+    "no-continue": "error",
+    "no-console": "warn",
+    "no-caller": "error",
+    "no-empty": ["error", {"allowEmptyCatch": true}],
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-mixed-spaces-and-tabs": "error",
+    "no-multi-str": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
+    "no-new": "error",
+    "no-new-func": "error",
+    "no-sequences": "error",
+    "no-trailing-spaces": "error",
+    "no-undef": "error",
+    "no-underscore-dangle": "error",
+    "no-unused-vars": ["error", { "args": "none" }],
+    "no-use-before-define": "error",
+    "no-with": "error",
+    "one-var": "error",
+    "quotes": ["error", "single"],
+    "semi": "error",
+    "semi-spacing": "error",
+    "space-before-blocks": "error",
+    "space-before-function-paren": ["error", {"anonymous": "always", "named": "never"}],
+    "space-in-parens": "error",
+    "space-infix-ops": "error",
+    "space-unary-ops": "error",
+    "vars-on-top": "error",
+    "wrap-iife": "error"
+  }
+}

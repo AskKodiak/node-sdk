@@ -1,0 +1,32 @@
+{
+  "name": "ask-kodiak-sdk",
+  "version": "1.0.0",
+  "description": "Node wrapper around the Ask Kodiak API. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AskKodiak/node-sdk.git"
+  },
+  "keywords": [
+    "insurance",
+    "appetite",
+    "node",
+    "naics",
+    "sic",
+    "insurtech"
+  ],
+  "author": "Ask Kodiak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AskKodiak/node-sdk/issues"
+  },
+  "homepage": "https://github.com/AskKodiak/node-sdk#readme",
+  "dependencies": {
+    "eslint": "^5.6.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  }
+}
