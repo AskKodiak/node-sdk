@@ -46,7 +46,7 @@ const AskKodiak = require('ask-kodiak-sdk'),
       gid = 'your group id'; //get this from your Company Settings in Ask Kodiak,
 
 // you must call init one time with your gid and key before making requests. 
-AskKodiak.init(gid, key, 'https://api-qa.askkodiak.com/dev/v1');
+AskKodiak.init(gid, key);
 
 ```
 
