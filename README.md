@@ -37,6 +37,8 @@ The Ask Kodiak Node SDK supports Node.js version 6.0 and hhigher.
 
 For a full list of options supported by each interace, see [Ask Kodiak API](https://api.askkodiak.com/doc/). 
 
+### Basic Usage
+
 ```js
 
 const AskKodiak = require('ask-kodiak-sdk'),
@@ -47,6 +49,12 @@ const AskKodiak = require('ask-kodiak-sdk'),
 AskKodiak.init(gid, key, 'https://api-qa.askkodiak.com/dev/v1');
 
 ```
+
+### Methods
+
+#### 
+
+method()
 
 
 
