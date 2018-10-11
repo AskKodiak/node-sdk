@@ -10,7 +10,7 @@ var ready = false,
 function init(intWithGid, initWithKey, initWithBaseURL) {
   gid = intWithGid;
   key = initWithKey;
-  baseURL = initWithBaseURL || 'https://api.askkodiak.com/dev/v1/'; //use the default url unless otherwise requested
+  baseURL = initWithBaseURL || 'https://api.askkodiak.com/v1'; //use the default url unless otherwise requested
   options = {
     headers: {'Authorization': 'Basic ' + Buffer.from(gid + ':' + key).toString('base64')},
     json: true // Automatically parses the JSON string in the response
