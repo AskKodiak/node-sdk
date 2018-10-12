@@ -78,8 +78,6 @@ function get(relativeUrl, opts) {
 
     options.uri = baseURL + relativeUrl + params;
 
-    console.log(options.uri);
-
     rp(options).then(function (response) {
       return resolve(response);
     }).catch(function (err) {

@@ -31,11 +31,11 @@ requests, code review feedback, and also pull requests.
 
 ## Supported Environments
 
-The Ask Kodiak Node.js SDK supports Node.js version 6.0 and hhigher.
+The Ask Kodiak Node.js SDK supports Node.js version 6.0 and higher.
 
 ## Documentation 
 
-For a full list of options supported by each interace, see [Ask Kodiak API](https://api.askkodiak.com/doc/). 
+For a full list of options supported by each interface, see [Ask Kodiak API](https://api.askkodiak.com/doc/). 
 
 ### Basic Usage
 
