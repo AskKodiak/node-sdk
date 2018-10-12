@@ -477,6 +477,8 @@ AskKodiak.getRefDataStates().then(function (response) {
 
 #### Suggest
 
+If your application has a scenario where the user needs to type in a NAICS code, these interfaces are great for making suggestions in a typeahead control.
+
 ##### Naics Codes
 
 Get suggested hashes associated with a search term. https://api.askkodiak.com/doc/#api-Suggest-NAICSCodes
