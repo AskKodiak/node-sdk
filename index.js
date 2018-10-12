@@ -140,12 +140,8 @@ module.exports = {
     return get('/admin/products/', opts);
   },
   // ANALYTICS
-  trackEvent: function (data) {
-    return post(data);
-  },
-  // MERCH
-  tShirtCannon: function (data) {
-    return post(data);
+  trackEvent: function (eventName, eventData) {
+    return post('/analytics/track/' + eventName, eventData);
   },
   // PRODUCT UTILS
   isProductEligibleForNaics: function (pid, code, opts) {
@@ -165,10 +161,10 @@ module.exports = {
     return get('/ref-data/states/', opts);
   },
   // SUGGEST
-  suggestNaicsCodes: function (term) {
-    return get('/suggest/naics-codes/' + term);
+  suggestNaicsCodes: function (term, opts) {
+    return get('/suggest/naics-codes/' + term, opts);
   },
-  suggestNaicsGroups: function (term) {
-    return get('/suggest/naics-groups/' + term);
+  suggestNaicsGroups: function (term, opts) {
+    return get('/suggest/naics-groups/' + term, opts);
   }
 };

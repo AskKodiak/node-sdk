@@ -41,7 +41,7 @@ The Ask Kodiak Node.js SDK supports Node.js version 6.0 and higher.
 
 ## Documentation 
 
-For a full list of options supported by each interface, see the [Ask Kodiak API](https://api.askkodiak.com/doc/) documentation. 
+**For a full list of options supported by each interface, see the [Ask Kodiak API](https://api.askkodiak.com/doc/) documentation. **
 
 ### Basic Usage
 
@@ -174,60 +174,349 @@ AskKodiak.getCompanyProfile('-L635HNnakPWk0QNHat-').then(function (company) {
 #### NAICS
 
 ##### Get Code
+
 Decode a NAICS MD5 hash into the 6 digit naics code and sub-description it represents. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsCode
 
+```js
+AskKodiak.getNaicsCode('0000dc045c872f122d694ef600c394df').then(function (code) {
+  console.log(code);
+  /*
+
+  { code: '621511',
+  description: 'Pathology laboratories, medical',
+  hash: '0000dc045c872f122d694ef600c394df' }
+
+  */
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 ##### Get Codes
+
 Get all computed NAICS hashes. Heads up, this is a big hunk of data. We recommend that you cache a copy on your end for best performance.
 https://api.askkodiak.com/doc/#api-NAICS-GetNaicsCodes
 
+```js
+AskKodiak.getNaicsCodes().then(function (code) {
+  console.log(code); //big wad-o-data
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 ##### Get Description
+
 Get a description for a NAICS group. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsDescription
 
+```js
+AskKodiak.getNaicsDescription('811310').then(function (response) {
+  console.log(response.description); 
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 ##### Get Group
+
 Get any given NAICS group using its numerical group number. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsGroup
 
+```js
+AskKodiak.getNaicsGroup('8113').then(function (response) {
+  console.log(response);
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 ##### Get Path
+
 Given a code, return it's NAICS parentage. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsGroupPath
 
+```js
+//As Array...
+AskKodiak.getNaicsPath('488190').then(function (response) {
+  console.log(response); //{ path: [ '48-49', '488', '4881', '48819', '488190' ] }
+}).catch(function (error) {
+  console.error(error);
+});
+
+// As Object...
+AskKodiak.getNaicsPath('488190', {'asObject': true}).then(function (response) {
+  console.log(response);
+  /*
+
+    { sector: '48-49',
+      subsector: '488',
+      industryGroup: '4881',
+      internationalIndustry: '48819',
+      nationalIndustry: '488190' }
+
+  */
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 ##### Get Sectors
+
 Get detailed information about all NAICS sectors. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsSectors
 
+```js
+AskKodiak.getNaicsSectors().then(function (response) {
+  console.log(response);
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 ##### Get Summary for Group Type
+
 Get a comprehensive list of all valid naics groups of the requested type.  https://api.askkodiak.com/doc/#api-NAICS-GetNAICSSummaryForGroupType
+
+```js
+AskKodiak.getNaicsSummaryForGroupType('sector').then(function (response) {
+  console.log(response);
+  /*
+  {
+    '11': 'Agriculture, Forestry, Fishing and Hunting',
+    '21': 'Mining, Quarrying, and Oil and Gas Extraction',
+    '22': 'Utilities',
+    '23': 'Construction',
+    '42': 'Wholesale Trade',
+    '51': 'Information',
+    '52': 'Finance and Insurance',
+    '53': 'Real Estate and Rental and Leasing',
+    '54': 'Professional, Scientific, and Technical Services',
+    '55': 'Management of Companies and Enterprises',
+    '56': 'Administrative and Support and Waste Management and Remediation Services',
+    '61': 'Educational Services',
+    '62': 'Health Care and Social Assistance',
+    '71': 'Arts, Entertainment, and Recreation',
+    '72': 'Accommodation and Food Services',
+    '81': 'Other Services (except Public Administration)',
+    '92': 'Public Administration',
+    '31-33': 'Manufacturing',
+    '44-45': 'Retail Trade',
+    '48-49': 'Transportation and Warehousing'
+  }
+
+  */
+}).catch(function (error) {
+  console.error(error);
+});
+```
 
 ##### Get Summary
 
 Get a comprehensive list of all valid naics groups indexed by type (e.g. sector, subsector, industry-group, international-industry, or national-industry). https://api.askkodiak.com/doc/#api-NAICS-GetNAICSSummary
+
+```js
+AskKodiak.getNaicsSummary().then(function (response) {
+  console.log(response);
+
+  /*
+  {
+    '11': 'Agriculture, Forestry, Fishing and Hunting',
+    '21': 'Mining, Quarrying, and Oil and Gas Extraction',
+    '22': 'Utilities',
+    '23': 'Construction',
+    '42': 'Wholesale Trade',
+    '51': 'Information',
+    '52': 'Finance and Insurance',
+    '53': 'Real Estate and Rental and Leasing',
+    '54': 'Professional, Scientific, and Technical Services',
+    '55': 'Management of Companies and Enterprises',
+    '56': 'Administrative and Support and Waste Management and Remediation Services',
+    '61': 'Educational Services',
+    '62': 'Health Care and Social Assistance',
+    '71': 'Arts, Entertainment, and Recreation',
+    '72': 'Accommodation and Food Services',
+    '81': 'Other Services (except Public Administration)',
+    '92': 'Public Administration',
+    '31-33': 'Manufacturing',
+    '44-45': 'Retail Trade',
+    '48-49': 'Transportation and Warehousing'
+  }
+
+  */
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 #### Admin
 
 ##### Products
+
+Get products owned by your your group regardless of their permission. https://api.askkodiak.com/doc/#api-Admin-AdminGetProducts.
+
+```js
+// all products
+AskKodiak.adminGetProducts().then(function (response) {
+  console.log(response.products.length);
+}).catch(function (error) {
+  console.error(error);
+});
+
+// all products with eligibility in VA
+AskKodiak.adminGetProducts({states: 'VA'}).then(function (response) {
+  console.log(response.products.length);
+}).catch(function (error) {
+  console.error(error);
+});
+```
 
 #### Analytics
 
 ##### Track Event
 
+Track an event (for example a search or a user action). https://api.askkodiak.com/doc/#api-Analytics-TrackEvent
+
+```js
+// track an event with the name 'inbound-referral' and pass it the specified data
+AskKodiak.trackEvent('inbound-referral', {'referer': 'https://www.google.com'}).then(function (response) {
+  console.log(response); //{ created: true }
+}).catch(function (error) {
+  console.error(error);
+});
+
+```
+
 #### Product Utils
 
 ##### Check Eligibility for NAICS Code
 
+Check the eligibility of a product for any valid 2-6 digit NAICS code or computed NAICS Hash. https://api.askkodiak.com/doc/#api-Product_Utils-ProductIsEligibleForHash
+
+```js
+AskKodiak.isProductEligibleForNaics('-Kv9s36or1XZKVHvlYwx', '44-45').then(function (response) {
+  console.log(response); //{ isEligible: true, percentOfCodesEligible: 1 }
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 ##### Render Conditional Content
+
+Render conditional content for the product associated with the specified conditions. https://api.askkodiak.com/doc/#api-Product_Utils-RenderConditionalContentForProduct
+
+```js
+
+AskKodiak.renderConditionalContent('-Kv9s36or1XZKVHvlYwx', { naicsGroups: '44-45', states: 'MA' }).then(function (response) {
+  console.log(response);
+}).catch(function (error) {
+  console.error(error);
+});
+```
 
 #### Reference Data
 
 ##### Business Entity Types
 
+Get a list of business entity types for use decoding the coded values associated with a product. https://api.askkodiak.com/doc/#api-Reference_Data-BusinessEntityTypes
+
+```js
+AskKodiak.getRefDataEntityTypes().then(function (response) {
+  console.log(response);
+  /*
+  {
+    AS: 'Association',
+    CA: 'Condo Association',
+    CC: 'City Commission',
+    CCORP: 'C Corporation',
+    ...
+  */
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 ##### Product Codes
 
+Get a list of product codes for use decoding the coded values associated with a product.  https://api.askkodiak.com/doc/#api-Reference_Data-ProductCodes
+
+```js
+AskKodiak.getRefDataProductCodes().then(function (response) {
+  console.log(response);
+  /*
+  {
+    ACCT: 'Accountants Professional',
+    ACHE: 'Accident and Health',
+    AGENTS: 'Insurance Agents',
+    AGLIA: 'Agriculture Liability',
+    ...
+  }
+  */
+}).catch(function (error) {
+  console.error(error);
+});
+
+```
+
 ##### States
+
+Get a list of US State name/value pairs. https://api.askkodiak.com/doc/#api-Reference_Data-States
+
+```js
+AskKodiak.getRefDataStates().then(function (response) {
+  console.log(response);
+  /*
+  {
+    AK: 'Alaska',
+    AL: 'Alabama',
+    AR: 'Arkansas',
+    AZ: 'Arizona',
+    ...
+  }
+  */
+}).catch(function (error) {
+  console.error(error);
+});
+```
 
 #### Suggest
 
 ##### Naics Codes
 
+Get suggested hashes associated with a search term. https://api.askkodiak.com/doc/#api-Suggest-NAICSCodes
+
+```js
+// returns 20 hits...
+AskKodiak.suggestNaicsCodes('ro').then(function (response) {
+  console.log(response.hits.length);
+}).catch(function (error) {
+  console.error(error);
+});
+
+// returns 100 hits...
+AskKodiak.suggestNaicsCodes('ro', { hitsPerPage: '100' }).then(function (response) {
+  console.log(response.hits.length);
+}).catch(function (error) {
+  console.error(error);
+});
+```
+
 ##### Naics Groups
 
+Get suggested 2-6 digit NAICS groups for a search term.
+https://api.askkodiak.com/doc/#api-Suggest-NAICSGroups
 
+```js
+// returns 20 hits...
+AskKodiak.suggestNaicsGroups('ro').then(function (response) {
+  console.log(response.hits.length);
+}).catch(function (error) {
+  console.error(error);
+});
 
+// page three of results 5 pages at a time..
+AskKodiak.suggestNaicsGroups('ro', { hitsPerPage: 5, page: 3 }).then(function (response) {
+  console.log(response.hits.length);
+}).catch(function (error) {
+  console.error(error);
+});
+```
 
 ## License
 
