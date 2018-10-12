@@ -75,8 +75,6 @@ For any API request that supports optional request parameters, pass an `options`
 
 Get products eligible for a given NAICS code. https://api.askkodiak.com/doc/#api-Products-GetProductsForNAICSCode
 
-All request parameters documented in the API doc are supported via an `options` object.
-
 ```js
 
 //return all products for the retail sector
@@ -88,23 +86,50 @@ AskKodiak.productsForCode('44-45').then(function (products) {
 });
 
 // alternative example, all products for the retail sector for companies with 1,000,000 in annual revenue
+// any valid optional request parameter for this interface can be passed in the options object.
 AskKodiak.productsForCode('44-45', {'annualRevenue':1000000}).then(function (products) {
   console.log(products.count);
 }).catch(function (error) {
   console.error(error);
 });
 
-
 ```
 
 ##### Products for Company
 
+Get products for a given Company. https://api.askkodiak.com/doc/#api-Products-GetProductsForCompany
 
-method()
+```js
 
+//return all products owned by the company with id -Nj840c1sd9nnByho
+AskKodiak.productsForCompany('-Nj840c1sd9nnByho').then(function (response) {
+  console.log('all', response.products.length);
+}).catch(function (error) {
+  console.error(error);
+});
 
+//return all BOP products owned by the company with id -Nj840c1sd9nnByho
+AskKodiak.productsForCompany('-Nj840c1sd9nnByho', {'productCodes': 'BOP'}).then(function (response) {
+  console.log('bop', response.products.length);
+}).catch(function (error) {
+  console.error(error);
+});
 
+```
 
+#### Product
 
+##### Get Product
 
+Return a product with the specified id. https://api.askkodiak.com/doc/#api-Product-GetProduct
 
+```js
+
+//return all product with the given id
+AskKodiak.getProduct('-Kv9s36or1XZKVHvlYwx').then(function (product) {
+  console.log(product.name);
+}).catch(function (error) {
+  console.error(error);
+});
+
+```
