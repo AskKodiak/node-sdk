@@ -6,6 +6,15 @@
  * [Installation](#installation)
  * [Contributing](#contributing)
  * [Documentation](#documentation)
+   * [Products](#products)
+   * [Product](#product)
+   * [Company](#company)
+   * [NAICS](#naics)
+   * [Admin](#admin)
+   * [Analytics](#analytics)
+   * [Product Utils](#product-utils)
+   * [Reference Data](#reference-data)
+   * [Suggest](#suggest)
  * [License](#license)
 
 ## Overview 
@@ -32,13 +41,13 @@ The Ask Kodiak Node.js SDK supports Node.js version 6.0 and higher.
 
 ## Documentation 
 
-For a full list of options supported by each interface, see [Ask Kodiak API](https://api.askkodiak.com/doc/). 
+For a full list of options supported by each interface, see the [Ask Kodiak API](https://api.askkodiak.com/doc/) documentation. 
 
 ### Basic Usage
 
 To use the module in your application require it from any JavaScript file. 
 
-Before making requests you must call the `init` method one time with your group id and key. This sets up the module with your credential for subsequent requests. You only need to do this once. You can find your key and group id in your company settings in Ask Kodiak.
+Before making requests you must call the `init()` method one time with your group id and key. This sets up the module with your credential for subsequent requests. You only need to do this once. You can find your key and group id in your company settings in Ask Kodiak.
 
 ```js
 
@@ -53,7 +62,7 @@ AskKodiak.init(gid, key);
 
 ```
 
-Methods are named and organized to match the primary [API endpoints](https://api.askkodiak.com/doc/#api-Products-GetProductsForNAICSCode). The library returns promises for all requests. 
+Methods are named and organized to match the primary [API endpoints](https://api.askkodiak.com/doc/#api-Products-GetProductsForNAICSCode). The library returns promises for all requests. These promises resolve to the data as documented in the API doc.
 
 For any API request that supports optional request parameters, pass an `options` object to the method with those values. For example, if making a request where it's important to filter by state and owner, you would pass the following `options` object to the method: 
 
@@ -130,6 +139,94 @@ AskKodiak.getProduct('-Kv9s36or1XZKVHvlYwx').then(function (product) {
 });
 
 ```
+
+#### Company
+
+##### Get Companies
+
+Get the basic information about companies with storefronts on Ask Kodiak, including their name, website, and other descriptive information as available. https://api.askkodiak.com/doc/#api-Company-GetCompanies
+
+```js
+
+//get all companies on Ask Kodiak
+AskKodiak.getCompanies().then(function (companies) {
+  console.log(companies);
+}).catch(function (error) {
+  console.error(error);
+});
+
+```
+
+##### Get Company Profile
+
+Get the basic information about a company on Ask Kodiak. https://api.askkodiak.com/doc/#api-Company-GetProfile
+
+```js
+// get the profile of the company by it's id
+AskKodiak.getCompanyProfile('-L635HNnakPWk0QNHat-').then(function (company) {
+  console.log(company.name);
+}).catch(function (error) {
+  console.error(error);
+});
+
+```
+
+#### NAICS
+
+##### Get Code
+Decode a NAICS MD5 hash into the 6 digit naics code and sub-description it represents. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsCode
+
+##### Get Codes
+Get all computed NAICS hashes. Heads up, this is a big hunk of data. We recommend that you cache a copy on your end for best performance.
+https://api.askkodiak.com/doc/#api-NAICS-GetNaicsCodes
+
+##### Get Description
+Get a description for a NAICS group. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsDescription
+
+##### Get Group
+Get any given NAICS group using its numerical group number. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsGroup
+
+##### Get Path
+Given a code, return it's NAICS parentage. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsGroupPath
+
+##### Get Sectors
+Get detailed information about all NAICS sectors. https://api.askkodiak.com/doc/#api-NAICS-GetNaicsSectors
+
+##### Get Summary for Group Type
+Get a comprehensive list of all valid naics groups of the requested type.  https://api.askkodiak.com/doc/#api-NAICS-GetNAICSSummaryForGroupType
+
+##### Get Summary
+
+Get a comprehensive list of all valid naics groups indexed by type (e.g. sector, subsector, industry-group, international-industry, or national-industry). https://api.askkodiak.com/doc/#api-NAICS-GetNAICSSummary
+#### Admin
+
+##### Products
+
+#### Analytics
+
+##### Track Event
+
+#### Product Utils
+
+##### Check Eligibility for NAICS Code
+
+##### Render Conditional Content
+
+#### Reference Data
+
+##### Business Entity Types
+
+##### Product Codes
+
+##### States
+
+#### Suggest
+
+##### Naics Codes
+
+##### Naics Groups
+
+
 
 
 ## License
