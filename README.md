@@ -6,10 +6,7 @@
  * [Installation](#installation)
  * [Contributing](#contributing)
  * [Documentation](#documentation)
- * [Supported Environments](#supported-environments)
- * [Acknowledgments](#acknowledgments)
  * [License](#license)
-
 
 ## Overview 
 
@@ -133,3 +130,8 @@ AskKodiak.getProduct('-Kv9s36or1XZKVHvlYwx').then(function (product) {
 });
 
 ```
+
+
+## License
+
+Licensed under the MIT license
