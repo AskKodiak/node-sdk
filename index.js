@@ -31,8 +31,9 @@ function paramsToString(paramsObj) {
   }
 
   params.forEach(function (paramName) {
-    requestParams += encodeURI(paramName);
-    requestParams += encodeURI(paramsObj[paramName]);
+    requestParams += encodeURI(paramName); //parameter name
+    requestParams += '=';
+    requestParams += encodeURI(paramsObj[paramName]); // parameter value
     requestParams += '&';
   });
 
@@ -76,6 +77,8 @@ function get(relativeUrl, opts) {
     }
 
     options.uri = baseURL + relativeUrl + params;
+
+    console.log(options.uri);
 
     rp(options).then(function (response) {
       return resolve(response);
