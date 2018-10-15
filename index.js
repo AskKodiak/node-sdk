@@ -147,6 +147,9 @@ module.exports = {
   isProductEligibleForNaics: function (pid, code, opts) {
     return get('/product-utils/' + pid  + '/is-eligible-for/' + code, opts);
   },
+  getEligibilityByNaicsGroupType: function (pid, type, opts) {
+    return get('/product-utils/' + pid  + '/eligibility-by-naics-type/' + type, opts);
+  },
   renderConditionalContent: function (pid, opts) {
     return get('/product-utils/conditional-content/' + pid, opts);
   },
