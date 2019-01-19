@@ -10,7 +10,7 @@ var ready = false,
 function init(intWithGid, initWithKey, initWithBaseURL) {
   gid = intWithGid;
   key = initWithKey;
-  baseURL = initWithBaseURL || 'https://api.askkodiak.com/v1'; //use the default url unless otherwise requested
+  baseURL = initWithBaseURL || 'https://api.askkodiak.com/v2'; //use the default url unless otherwise requested
   options = {
     headers: {'Authorization': 'Basic ' + Buffer.from(gid + ':' + key).toString('base64')},
     json: true // Automatically parses the JSON string in the response
@@ -77,6 +77,9 @@ function get(relativeUrl, opts) {
     }
 
     options.uri = baseURL + relativeUrl + params;
+    options.method = 'GET';
+
+    delete options.body; //may have been set by a prior post
 
     rp(options).then(function (response) {
       return resolve(response);
@@ -103,11 +106,23 @@ module.exports = {
   getProduct: function (pid, opts) {
     return get('/product/' + pid, opts);
   },
+  isProductEligibleForNaics: function (pid, code, opts) {
+    return get('/product/' + pid  + '/is-eligible-for/' + code, opts);
+  },
+  getEligibilityByNaicsGroupType: function (pid, type, opts) {
+    return get('/product/' + pid  + '/eligibility-by-naics-type/' + type, opts);
+  },
+  getConditionalRules: function (pid, opts) {
+    return get('/product/' + pid + '/conditional-rules/', opts);
+  },
+  renderConditionalContent: function (pid, opts) {
+    return get('/product/' + pid + '/conditional-content/', opts);
+  },
   // COMPANY
   getCompanies: function (opts) {
     return get('/companies/', opts);
   },
-  getCompanyProfile: function (gid, opts) {
+  getCompany: function (gid, opts) {
     return get('/company/' + gid, opts);
   },
   // NAICS
@@ -143,15 +158,11 @@ module.exports = {
   trackEvent: function (eventName, eventData) {
     return post('/analytics/track/' + eventName, eventData);
   },
-  // PRODUCT UTILS
-  isProductEligibleForNaics: function (pid, code, opts) {
-    return get('/product-utils/' + pid  + '/is-eligible-for/' + code, opts);
+  getReferrals: function (opts) {
+    return get('/analytics/referrals/', opts);
   },
-  getEligibilityByNaicsGroupType: function (pid, type, opts) {
-    return get('/product-utils/' + pid  + '/eligibility-by-naics-type/' + type, opts);
-  },
-  renderConditionalContent: function (pid, opts) {
-    return get('/product-utils/conditional-content/' + pid, opts);
+  getReferral: function (id, opts) {
+    return get('/analytics/referral/' + id, opts);
   },
   // REF DATA
   getRefDataEntityTypes: function (opts) {
@@ -160,8 +171,8 @@ module.exports = {
   getRefDataProductCodes: function (opts) {
     return get('/ref-data/product-codes/', opts);
   },
-  getRefDataStates: function (opts) {
-    return get('/ref-data/states/', opts);
+  getRefDataGeos: function (opts) {
+    return get('/ref-data/geos/', opts);
   },
   // SUGGEST
   suggestNaicsCodes: function (term, opts) {
