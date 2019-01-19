@@ -77,6 +77,9 @@ function get(relativeUrl, opts) {
     }
 
     options.uri = baseURL + relativeUrl + params;
+    options.method = 'GET';
+
+    delete options.body; //may have been set by a prior post
 
     rp(options).then(function (response) {
       return resolve(response);
