@@ -19,7 +19,7 @@
 
 ## Overview 
 
-The Ask Kodiak Node.js SDK is a straightforward node implementation of the [Ask Kodiak API](https://api.askKodiak.com/doc/v1/) for Node.js environments. API Keys are required to use, you can obtain those keys from Company Settings once you've created an account.
+The Ask Kodiak Node.js SDK is a straightforward node implementation of the [Ask Kodiak API](https://api.askkodiak.com/doc/v1/) for Node.js environments. API Keys are required to use, you can obtain those keys from Company Settings once you've created an account.
 
 ## Installation
 
