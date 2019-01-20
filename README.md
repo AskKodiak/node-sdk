@@ -46,7 +46,13 @@ Version 2 brings with it breaking changes. Make sure to review the [Ask Kodiak A
 
 Changes to this library:
 
-  * new **Product** method [`getConditionalRules`](#get-conditional-rules) added.
+  * added **Product** method [`getConditionalRules`](#get-conditional-rules).
+  * removed **Company** method `getCompanyProfile`.
+  * added **Company** method [`getCompany`](#get-company) (replaces the above).
+  * added **Analytics** method [`getReferrals`](#get-referrals).
+  * added **Analytics** method [`getReferral`](#get-referral).
+  * removed **Reference Data** method `getRefDataStates`.
+  * added **Reference Data** method [`getRefDataGeos`](#geographies) (replaces the above).
 
 ## Documentation 
 
