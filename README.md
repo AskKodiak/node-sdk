@@ -5,6 +5,7 @@
  * [Overview](#overview)
  * [Installation](#installation)
  * [Contributing](#contributing)
+ * [Upgrading](#upgrading)
  * [Documentation](#documentation)
    * [Products](#products)
    * [Product](#product)
@@ -38,6 +39,14 @@ requests, code review feedback, and also pull requests.
 ## Supported Environments
 
 The Ask Kodiak Node.js SDK supports Node.js version 6.0 and higher.
+
+## Upgrading
+
+Version 2 brings with it breaking changes. Make sure to review the [Ask Kodiak API Upgrade Guide](https://api-qa.askkodiak.com/dev/doc/v2/#api-Upgrade_Guides) before upgrading.
+
+Changes to this library:
+
+  * new **Product** method [`getConditionalRules`](#get-conditional-rules) added.
 
 ## Documentation 
 
