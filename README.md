@@ -13,7 +13,6 @@
    * [NAICS](#naics)
    * [Admin](#admin)
    * [Analytics](#analytics)
-   * [Product Utils](#product-utils)
    * [Reference Data](#reference-data)
    * [Suggest](#suggest)
  * [License](#license)

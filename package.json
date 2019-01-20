@@ -1,6 +1,6 @@
 {
   "name": "ask-kodiak-sdk",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Node wrapper around the Ask Kodiak API. ",
   "main": "index.js",
   "scripts": {
