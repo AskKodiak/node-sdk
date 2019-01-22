@@ -63,7 +63,7 @@ describe('Products For Code', function () {
     askKodiak.productsForCode('44-45', {'summaryOnly': true}).then(function (res) {
       var ok = true,
           actualProps,
-          expectedProps = ['id', 'name', 'ownerId'],
+          expectedProps = ['id', 'name', 'ownerId', 'coverageType', 'logo'],
           products = res.products,
           i,
           ix;

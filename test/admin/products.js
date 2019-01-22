@@ -44,7 +44,7 @@ describe('Admin Products', function () {
     askKodiak.adminGetProducts({'summaryOnly': true}).then(function (res) {
       var ok = true,
           actualProps,
-          expectedProps = ['id', 'name', 'ownerId'],
+          expectedProps = ['id', 'name', 'ownerId', 'coverageType', 'logo'],
           products = res.products,
           i,
           ix;
