@@ -4,6 +4,29 @@ const assert = require('chai').assert,
 
 askKodiak.init(config.gid, config.key, config.url);
 
+function areSummaryOnly(products) {
+  var actualProps,
+      expectedProps = ['id', 'name', 'ownerId', 'coverageType', 'logo'],
+      ok = true;
+
+  for (let i = 0; i < products.length; i++) {
+    actualProps = Object.keys(products[i]);
+    for (let ix = 0; ix < actualProps.length; ix++) {
+      let prop = actualProps[ix];
+      if (expectedProps.indexOf(prop) === -1) {
+        // make sure the unexpected property is not a response specific value
+        // as indicated by an '_'
+        if (prop.indexOf('_') !== 0) {
+          ok = false;
+        }
+      }
+    }
+  }
+
+  return ok;
+
+}
+
 describe('Products For Code', function () {
   it('Returns expected object properties', function (done) {
     askKodiak.productsForCode('44-45', {}).then(function (res) {
@@ -55,29 +78,13 @@ describe('Products For Code', function () {
   });
   it('Returns expected eligibility (include)', function (done) {
     askKodiak.productsForCode('44-45', {'includeEligibility': true}).then(function (res) {
-      assert.equal(res.includeEligibility, true);
+      assert.isTrue(res.includeEligibility);
       done();
     });
   });
   it('Returns summary only results', function (done) {
     askKodiak.productsForCode('44-45', {'summaryOnly': true}).then(function (res) {
-      var ok = true,
-          actualProps,
-          expectedProps = ['id', 'name', 'ownerId', 'coverageType', 'logo'],
-          products = res.products,
-          i,
-          ix;
-
-      for (i = 0; i < products.length; i++) {
-        actualProps = Object.keys(products[i]);
-        for (ix = 0; ix < actualProps.length; ix++) {
-          if (expectedProps.indexOf(actualProps[ix]) === -1) {
-            ok = false;
-          }
-        }
-      }
-
-      assert.equal(ok, true);
+      assert.isTrue(areSummaryOnly(res.products));
       done();
     });
   });
