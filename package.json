@@ -1,17 +1,18 @@
 {
   "name": "ask-kodiak-sdk",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Node wrapper around the Ask Kodiak API. ",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --timeout 999999 --exit  --recursive"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AskKodiak/node-sdk.git"
+    "url": "https://github.com/AskKodiak/node-sdk.git"
   },
   "keywords": [
     "insurance",
+    "commercial insurance",
     "appetite",
     "node",
     "naics",
@@ -25,12 +26,12 @@
   },
   "homepage": "https://github.com/AskKodiak/node-sdk#readme",
   "dependencies": {
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4"
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
   },
   "devDependencies": {
-    "eslint": "^6.3.0",
-    "chai": "^4.2.0",
-    "mocha": "^6.2.0"
+    "eslint": "^7.23.0",
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2"
   }
 }

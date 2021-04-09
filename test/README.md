@@ -2,11 +2,10 @@
 
 node-sdk uses  Mocha/Chai unit tests. To run them, first create a file in this directory called `askkodiakrc.json`. It should include your api credentials and a test product id that is rich with data including rules to be used in verification. here's the format:
 
-```
+```json
 {
-  "gid": "-L63MMnnhjsuw2xQNHat-",
-  "key": "ee64f5d24f7c0cfa9648dd7426649c28779929d072637df2",
-  "pid": "-NbVX8JCfGvH8cHtMnVc"
+  "gid": "-L63MMnnhjsuw2xBNHat-",
+  "key": "ee64f5d24f7c0cNN9648dd7426649c28779929d072637df2"
 }
 ```
 

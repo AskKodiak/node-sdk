@@ -1,184 +1,130 @@
 const rp = require('request-promise'),
-      notReadyMessage = 'Ask Kodiak not initialized. Make sure to call init() with your group id and key before making a request.';
+      notReadyMessage = 'Ask Kodiak not initialized. Make sure to call init() with your group id and key before making a request.',
+      defaultUrl = 'https://api.askkodiak.com/v2';
 
-var ready = false,
-    gid,
-    key,
-    baseURL,
-    options;
+var ready = false, // initialization status
+    gid, // group id associated with api
+    key, // key associated with ask kodiak api
+    baseURL, // base url of ask kodiak api.
+    headers, // auth headers
+    paramsToString = (obj = {}) => {
+      var string = '',  // eventually something like '?geos=US-MA+US-VT&naicsCodes=11+22'
+          params = [],
+          keys = Object.keys(obj);
 
-function init(intWithGid, initWithKey, initWithBaseURL) {
-  gid = intWithGid;
-  key = initWithKey;
-  baseURL = initWithBaseURL || 'https://api.askkodiak.com/v2'; //use the default url unless otherwise requested
-  options = {
-    headers: {'Authorization': 'Basic ' + Buffer.from(gid + ':' + key).toString('base64')},
-    json: true // Automatically parses the JSON string in the response
-  };
-  ready = true;
-}
+      // keys are the names of the request parameter(s)
+      keys.forEach(key => {
+        var value = obj[key],
+            values = [],
+            param = key + '='; // the start of the string for this parameter
 
-//returns request params as a string, or any empty string if none
-function paramsToString(paramsObj) {
-  var params,
-      requestParams = '';
+        // is there a value for this key?
+        if (typeof value !== undefined) {
+          // there is a value.
+          // iis it an array?
+          if (Array.isArray(value)) {
+            // already an array, no need to convert it.
+            values = value;
+          } else {
+            values = [value]; //values is now an array of one item, the single value passed
+          }
+        }
 
-  paramsObj = paramsObj || {};
-  params = Object.keys(paramsObj);
+        // separate individual values with a '+' sign. that's how the Ask Kodiak API looks for params that are lists
+        values.forEach(value => {
+          param += encodeURIComponent(value) + '+';
+        });
 
-  if (params.length > 0) {
-    requestParams += '?';
-  }
+        // if there were any values, push this param to the list of all the params
+        if (values.length > 0) {
+          param = param.slice(0, -1); // remove trailing + sign
+          params.push(param); // add to the list of parameters
+        }
+      });
 
-  params.forEach(function (paramName) {
-    requestParams += encodeURI(paramName); //parameter name
-    requestParams += '=';
-    requestParams += encodeURI(paramsObj[paramName]); // parameter value
-    requestParams += '&';
-  });
+      // add any request parameters created when looping through the obj to the string
+      if (params.length > 0) {
+        string = `${string}?`; // base url
+        params.forEach(param => {
+          string += `${param}&`; // add param
+        });
+        string = string.slice(0, -1); // remove final trailing ampersand
+      }
 
-  if (requestParams.length > 0) {
-    requestParams = requestParams.substring(0, requestParams.length - 1);//chop of the trailing ampersand
-  }
+      return string;
+    }, //returns request params as a string, or any empty string if none
+    getUrlStr = (relativeUrl = '', paramsObj) => {
 
-  return requestParams;
+      // make sure the relative url starts with a slash and add one if not
+      if (!relativeUrl.startsWith('/')) {
+        relativeUrl = `/${relativeUrl}`;
+      }
 
-}
+      return encodeURI(baseURL + relativeUrl + paramsToString(paramsObj));
+    },
+    post = async (relativeUrl = '', data = {}, paramsObj = {}) => {
+      // eslint-disable-next-line no-unused-vars
+      const isReady = (() => {
+              if (!ready) {
+                throw new Error(notReadyMessage);
+              }
+              return ready;
+            })(),
+            request = {
+              uri: getUrlStr(relativeUrl, paramsObj),
+              method: 'POST', // request method
+              headers: headers, // basic auth headers
+              body: data, // post body
+              json: true   // Automatically parses the JSON string in the response
+            },
+            res =  await rp(request);
 
-function post(relativeUrl, data) {
-  return new Promise(function (resolve, reject) {
+      return res;
 
-    if (ready === false) {
-      return reject(new Error(notReadyMessage));
-    }
+    },
+    get = async (relativeUrl = '', paramsObj = {}) => {
+      // eslint-disable-next-line no-unused-vars
+      const isReady = (() => {
+              if (!ready) {
+                throw new Error(notReadyMessage);
+              }
+              return ready;
+            })(),
+            request = {
+              uri: getUrlStr(relativeUrl, paramsObj),
+              method: 'GET', // request method
+              headers: headers, // basic auth headers
+              json: true   // Automatically parses the JSON string in the response
+            },
+            res =  await rp(request);
 
-    options.uri = baseURL + relativeUrl;
-    options.method = 'POST';
-    options.body = data;
+      return res;
 
-    rp(options).then(function (response) {
-      return resolve(response);
-    }).catch(function (err) {
-      // API call failed...
-      return reject(err);
-    });
-  });
-}
+    },
+    init = async (withGid, withKey, withUrl = defaultUrl) => {
+      gid = withGid; // set the gid associated with future requests
+      key = withKey; // set the key associated with future requests
+      baseURL = withUrl; //use the default url for future requests unless otherwise requested
+      headers = {Authorization: `Basic ${Buffer.from(gid + ':' + key).toString('base64')}`}; // basic auth headers
+      ready = true; // set ready to true so we can test a first call. if it fails we'll flip this back.
 
-function get(relativeUrl, opts) {
-  opts = opts || {};
+      // test connectivity.
+      try {
+        let geos = await get('/ref-data/geos', {countries: 'CA', subdivisionTypes: ['territory', 'province']});  // eslint-disable-line no-unused-vars
+      } catch (errorResponse) {
+        let error = errorResponse.error || {},
+            message = `ask kodiak api error: ${error.message || 'something went wrong connecting to the Ask Kodiak API'}`;
 
-  return new Promise(function (resolve, reject) {
+        ready = false;
 
-    var params = paramsToString(opts); //turn the options object into a string of request parameters
+        throw new Error(message);
+      }
 
-    if (ready === false) {
-      return reject(new Error(notReadyMessage));
-    }
+      // keys established and verified. ready to roll.
+      return ready;
 
-    options.uri = baseURL + relativeUrl + params;
-    options.method = 'GET';
+    }; // init method. call once before running. sets up parameters and tests connectivity
 
-    delete options.body; //may have been set by a prior post
-
-    rp(options).then(function (response) {
-      return resolve(response);
-    }).catch(function (err) {
-      // API call failed...
-      return reject(err);
-    });
-  });
-}
-
-module.exports = {
-  // must be called before making a request
-  init: function (gid, key, baseURL) {
-    return init(gid, key, baseURL);
-  },
-  // PRODUCTS
-  productsForCode: function (code, opts) {
-    return get('/products/class-code/naics/' + code, opts);
-  },
-  productsForCompany: function (gid, opts) {
-    return get('/products/company/' + gid, opts);
-  },
-  // PRODUCT
-  getProduct: function (pid, opts) {
-    return get('/product/' + pid, opts);
-  },
-  isProductEligibleForNaics: function (pid, code, opts) {
-    return get('/product/' + pid  + '/is-eligible-for/' + code, opts);
-  },
-  getEligibilityByNaicsGroupType: function (pid, type, opts) {
-    return get('/product/' + pid  + '/eligibility-by-naics-type/' + type, opts);
-  },
-  getConditionalRules: function (pid, opts) {
-    return get('/product/' + pid + '/conditional-rules/', opts);
-  },
-  renderConditionalContent: function (pid, opts) {
-    return get('/product/' + pid + '/conditional-content/', opts);
-  },
-  // COMPANY
-  getCompanies: function (opts) {
-    return get('/companies/', opts);
-  },
-  getCompany: function (gid, opts) {
-    return get('/company/' + gid, opts);
-  },
-  // NAICS
-  getNaicsCode: function (hash, opts) {
-    return get('/naics/code/' + hash, opts);
-  },
-  getNaicsCodes: function (opts) {
-    return get('/naics/codes/', opts);
-  },
-  getNaicsDescription: function (groupNum, opts) {
-    return get('/naics/description/' + groupNum, opts);
-  },
-  getNaicsGroup: function (groupNum, opts) {
-    return get('/naics/group/' + groupNum, opts);
-  },
-  getNaicsPath: function (groupNum, opts) {
-    return get('/naics/utils/get-path/' + groupNum, opts);
-  },
-  getNaicsSectors: function (opts) {
-    return get('/naics/sectors/', opts);
-  },
-  getNaicsSummaryForGroupType: function (type, opts) {
-    return get('/naics/summary/' + type, opts);
-  },
-  getNaicsSummary: function (opts) {
-    return get('/naics/summary/', opts);
-  },
-  // ADMIN
-  adminGetProducts: function (opts) {
-    return get('/admin/products/', opts);
-  },
-  // ANALYTICS
-  trackEvent: function (eventName, eventData) {
-    return post('/analytics/track/' + eventName, eventData);
-  },
-  getReferrals: function (opts) {
-    return get('/analytics/referrals/', opts);
-  },
-  getReferral: function (id, opts) {
-    return get('/analytics/referral/' + id, opts);
-  },
-  // REF DATA
-  getRefDataEntityTypes: function (opts) {
-    return get('/ref-data/business-entity-types/', opts);
-  },
-  getRefDataProductCodes: function (opts) {
-    return get('/ref-data/product-codes/', opts);
-  },
-  getRefDataGeos: function (opts) {
-    return get('/ref-data/geos/', opts);
-  },
-  // SUGGEST
-  suggestNaicsCodes: function (term, opts) {
-    return get('/suggest/naics-codes/' + term, opts);
-  },
-  suggestNaicsGroups: function (term, opts) {
-    return get('/suggest/naics-groups/' + term, opts);
-  }
-};
+exports.init = init;
+exports.get = get;
+exports.post = post;
