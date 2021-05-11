@@ -1,6 +1,6 @@
 {
   "name": "ask-kodiak-sdk",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Node wrapper around the Ask Kodiak API. ",
   "main": "index.js",
   "scripts": {
@@ -30,8 +30,8 @@
     "request-promise": "^4.2.6"
   },
   "devDependencies": {
-    "eslint": "^7.23.0",
+    "eslint": "^7.26.0",
     "chai": "^4.3.4",
-    "mocha": "^8.3.2"
+    "mocha": "^8.4.0"
   }
 }
